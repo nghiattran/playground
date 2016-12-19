@@ -55,15 +55,18 @@ def print_list(head):
 
 
 def get_n_last(head, n):
-    tmp = head
-    dict = {0: head}
+    first_pointer = head
+    second_pointer = None
     counter = 1
 
-    while tmp.next is not None:
-        dict[counter] = tmp.next
+    while first_pointer.next is not None:
         counter += 1
-        tmp = tmp.next
-    return dict[counter - n]
+        first_pointer = first_pointer.next
+        if counter == n:
+            second_pointer = head
+        elif counter > n:
+            second_pointer = second_pointer.next
+    return second_pointer
 
 
 def delete_node(node):
@@ -117,15 +120,18 @@ def add_list1(list1, list2):
     return head
 
 
-def detect_circular(list):
-    tmp = list
-    dict = {}
-    while tmp is not None:
-        if tmp in dict:
-            return tmp
-        dict[tmp] = None
-        tmp = tmp.next
-    return None
+def detect_circular(head):
+    slow = head
+    fast = head.next
+
+    while True:
+        if fast is None:
+            return None
+        if fast == slow:
+            return fast
+
+        slow = slow.next
+        fast = fast.next.next
 
 # node1 = Node(1)
 # node2 = Node(2)
@@ -154,16 +160,17 @@ def detect_circular(list):
 # head = add_list1(list1, list2)
 # print_list(head)
 
-nodeA = Node('A')
-nodeB = Node('B')
-nodeC = Node('C')
-nodeD = Node('D')
-nodeE = Node('E')
-nodeA.next = nodeB
-nodeB.next = nodeC
-nodeC.next = nodeE
-nodeE.next = nodeA
+head = Node(0)
+tmp = head
+for i in range(1, 20):
+    node = Node(i)
+    tmp.next = node
+    tmp = node
 
+node = get_n_last(head, 10)
+node.next = get_n_last(head, 13)
+print(node.data)
+print(detect_circular(head).data)
 
 
 # print(detect_circular(nodeA).data)
