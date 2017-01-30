@@ -9,12 +9,11 @@ class Solution(object):
         b = 0
         for num in nums:
             xor ^= num
-            print(bin(xor), bin(num))
-        print(bin(xor))
+
         mask = 1
         while(xor&mask == 0):
             mask = mask << 1
-        print('mask', bin(mask))
+
         for num in nums:
             if num&mask:
                 a ^= num
